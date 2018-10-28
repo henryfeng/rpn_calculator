@@ -1,0 +1,4 @@
+rootProject.name = 'airwallex'
+include 'calculator'
+findProject(':calculator')?.name = 'airwallex.calculator'
+
