@@ -2,30 +2,22 @@ package com.airwallex.calculator;
 
 import com.airwallex.calculator.operators.*;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  *  To implement an RPN calculator, process the input text and parse it and do the calculation.
  */
 public class Calculator {
 
     private static final char WHITESPACE = ' ';
-    private static final String OP_ADDITION = "+";
-    private static final String OP_SUBTRACTION = "-";
-    private static final String OP_MULTIPLICATION = "*";
-    private static final String OP_DIVISION = "/";
-    private static final String OP_SQRT = "sqrt";
     private static final String OP_UNDO = "undo";
     private static final String OP_CLEAR = "clear";
     private static final String REG_NUMBER = "^[+-]?(?:\\d+\\.?\\d*|\\d*\\.\\d+)$";
 
     private CalculatorStack stack;
-    private Map<String, AbstractOperator> operatorMap;
+    private OperatorManager operatorManager;
 
     public Calculator() {
         stack = new CalculatorStack();
-        initializeOperators();
+        operatorManager = OperatorManager.getInstance();
     }
 
     /**
@@ -70,7 +62,7 @@ public class Calculator {
     private void processWord(String word, int pos) throws AppException {
         if (isRealNumber(word)) {
             stack.push(new StackElement(Double.parseDouble(word)));
-        } else if (operatorMap.containsKey(word)) {
+        } else if (operatorManager.contains(word)) {
             applyOperator(word, pos);
         } else {
             switch (word) {
@@ -95,7 +87,7 @@ public class Calculator {
      * @throws AppException anything wrong when do the calculation
      */
     private void applyOperator(String operator, int pos) throws AppException {
-        AbstractOperator op = operatorMap.get(operator);
+        AbstractOperator op = operatorManager.get(operator);
         if (op == null) {
             throw new AppException(operator, pos);
         }
@@ -137,17 +129,6 @@ public class Calculator {
         return text != null && text.matches(REG_NUMBER);
     }
 
-    /**
-     * initialize operators' mapping, create calculator for each operator
-     */
-    private void initializeOperators() {
-        operatorMap = new HashMap<>();
-        operatorMap.put(OP_ADDITION, new AdditionOperator());
-        operatorMap.put(OP_SUBTRACTION, new SubtractionOperator());
-        operatorMap.put(OP_MULTIPLICATION, new MultiplicationOperator());
-        operatorMap.put(OP_DIVISION, new DivisionOperator());
-        operatorMap.put(OP_SQRT, new SqrtOperator());
-    }
 
     /**
      * print all numbers in the stack
@@ -156,6 +137,10 @@ public class Calculator {
         stack.print();
     }
 
+    /**
+     * returns an array that all numbers in the stack
+     * @return
+     */
     public double[] getStackNumbers() {
         return stack.toArray();
     }
