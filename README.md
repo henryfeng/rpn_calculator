@@ -1,22 +1,20 @@
 This is a programming exercise – a RPN Calculator
 
-For security reason, The jar file can't add to the zip file to mail it. Please rename the airwallex.calculator.zip to .jar file.
-
 The running environment needs JRE 1.8x
 
-To run the calculator: java -jar ./bin/airwallex.calculator.jar 
+To run the calculator: **java -jar ./bin/airwallex.calculator.jar** 
   
-All java source code is in the directory ./calculator/src, I have created a gradle file to build or test the java code.
+All java source code is in the directory **./calculator/src**, I have created a gradle file to build or test the java code.
 
 Before you build this calculator, please make sure the gradle has been installed. Replace "your_gradle_home" to your gradle home.
 
 To build the app:
-  _your_gradle_home_/bin/gradle build
+  _your_gradle_home_**/bin/gradle build**
   
 You can see the jar file and class files in the ./calculator/build/
   
 To run the junit test:
-  _your_gradle_home_/bin/gradle test  
+  _your_gradle_home_**/bin/gradle test**  
   
 To see the test report, please open the index.html in the ./calculator/build/reports/tests/test/
 
